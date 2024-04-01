@@ -1,4 +1,4 @@
-#game {
+#canvas {
   width: 600px;
   height: 200px;
   position: absolute;
@@ -6,33 +6,9 @@
   left: 0;
   right: 0;
   bottom: 0;
-  border-bottom: 2px solid black;
+  border-bottom: 1px solid black;
   transform: scale(2);
   margin: auto;
   image-rendering: pixelated;
-}
-
-#dino {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 24px;
-  height: 24px;
-}
-
-#cactus {
-  width: 600px;
-  height: 100%;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-}
-
-#cactus > div {
-  width: 10px;
-  background: url(./holdthingy.gif);
-  background-position: top left;
-  position: absolute;
-  bottom: 0;
+  outline: none;
 }
