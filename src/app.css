@@ -1,0 +1,15 @@
+#game {
+  width: 600px;
+  height: 300px;
+  position: relative;
+  border: 2px solid black;
+}
+
+#dino {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 10px;
+  height: 10px;
+  background:red;
+}
