@@ -12,3 +12,7 @@
   image-rendering: pixelated;
   outline: none;
 }
+
+body {
+  background-color: color(display-p3 0 1 1);
+}
