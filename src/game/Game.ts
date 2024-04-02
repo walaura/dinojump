@@ -5,48 +5,77 @@ import { startGlobals } from "./Globals.ts";
 import Render from "./Render.ts";
 
 const $pause = document.querySelector("#pause");
-
-const GLOBALS = startGlobals();
+const $start = document.querySelector("#start");
 
 const MakeGame = () => {
-	let paused = false;
+	const startGame = (onGameOver) => {
+		const GLOBALS = startGlobals();
+		let paused = false;
 
-	let ogTime = 0;
+		let ogTime = performance.now();
 
-	const catSpriteLoop = CatSprite();
-	const cactusLoop = Cactus();
-	const renderLoop = Render();
-	const { loop: gravityLoop, jump } = Gravity();
+		const catSpriteLoop = CatSprite();
+		const cactusLoop = Cactus();
+		const renderLoop = Render();
+		const { loop: gravityLoop, jump } = Gravity();
 
-	const loop = (time = 0) => {
-		const frameTime = (time - ogTime) / 1000;
-		ogTime = time;
-		const speed = 2 + 1 * (GLOBALS.score / 10);
-		const normalFrameTime = frameTime * speed;
+		const onJump = (e) => {
+			if (e.key === " " && GLOBALS.dinoY < 0.1) {
+				jump();
+			}
+		};
 
-		gravityLoop(normalFrameTime, GLOBALS);
-		cactusLoop(normalFrameTime, GLOBALS);
-		catSpriteLoop(normalFrameTime, GLOBALS);
+		const onPause = () => {
+			paused = !paused;
+			if (!paused) {
+				ogTime = performance.now();
+				loop();
+			}
+		};
 
-		renderLoop(GLOBALS);
+		window.document.addEventListener("keydown", onJump);
+		$pause?.addEventListener("click", onPause);
 
-		!paused && requestAnimationFrame(loop);
+		const teardown = () => {
+			paused = true;
+			window.document.removeEventListener("keydown", onJump);
+			$pause?.removeEventListener("click", onPause);
+		};
+
+		const loop = (time = ogTime) => {
+			const frameTime = (time - ogTime) / 1000;
+			ogTime = time;
+			const speed = 2 + 1 * (GLOBALS.score / 10);
+			const normalFrameTime = frameTime * speed;
+
+			gravityLoop(normalFrameTime, GLOBALS);
+			cactusLoop(normalFrameTime, GLOBALS);
+			catSpriteLoop(normalFrameTime, GLOBALS);
+
+			renderLoop(GLOBALS);
+
+			if (GLOBALS.isGameOver === true) {
+				onGameOver();
+				teardown();
+				return;
+			}
+
+			!paused && requestAnimationFrame(loop);
+		};
+		loop();
+
+		return teardown;
 	};
-	loop();
 
-	window.document.addEventListener("keydown", (e) => {
-		if (e.key === " " && GLOBALS.dinoY < 0.1) {
-			jump();
-		}
-	});
+	let teardown = () => {};
+	const onStart = () => {
+		teardown();
+		teardown = startGame(() => {
+			alert("game over");
+		});
+	};
 
-	$pause?.addEventListener("click", () => {
-		paused = !paused;
-		if (!paused) {
-			ogTime = performance.now()
-			loop();
-		}
-	});
+	$start?.addEventListener("click", onStart);
 };
 
 export default MakeGame;

@@ -4,6 +4,7 @@ const OBSTACLES_AT_ONCE = 6;
 
 const Cactus = () => {
 	const loop = (normalFrameTime: number, GLOBALS: TGlobals) => {
+		console.log(GLOBALS.obstacles.length);
 		while (GLOBALS.obstacles.length < OBSTACLES_AT_ONCE) {
 			const previousObstacleAt = GLOBALS.obstacles.length
 				? GLOBALS.obstacles[GLOBALS.obstacles.length - 1][1]
@@ -20,9 +21,12 @@ const Cactus = () => {
 			obstacle[1] -= 30 * normalFrameTime;
 
 			if (obstacle[2]) {
-				if (obstacle[1] < STATIC_GLOBALS.dinoOffsetX) {
+				if (
+					obstacle[1] <
+					STATIC_GLOBALS.dinoOffsetX + STATIC_GLOBALS.dinoSpriteSize / 2
+				) {
 					if (GLOBALS.dinoY < obstacle[0]) {
-						console.error("Game Over");
+						GLOBALS.isGameOver = true;
 					} else {
 						GLOBALS.score++;
 					}

@@ -39,7 +39,7 @@ const Render = () => {
 
 			ctx.drawImage(
 				CACTUS_IMAGE,
-				obstacle[1],
+				Math.floor(obstacle[1]),
 				STATIC_GLOBALS.height - obstacle[0],
 				STATIC_GLOBALS.obstacleSpriteSize,
 				CACTUS_IMAGE.height

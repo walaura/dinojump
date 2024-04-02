@@ -4,6 +4,7 @@ type TGlobals = {
 	obstacles: Obstacle[];
 	score: 0;
 	dinoFrame: 0 | 1;
+	isGameOver: boolean;
 };
 
 const startGlobals = (): TGlobals => ({
@@ -11,6 +12,7 @@ const startGlobals = (): TGlobals => ({
 	obstacles: [],
 	score: 0,
 	dinoFrame: 0,
+	isGameOver: false,
 });
 
 const STATIC_GLOBALS = {
