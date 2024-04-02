@@ -4,7 +4,6 @@ const OBSTACLES_AT_ONCE = 6;
 
 const Cactus = () => {
 	const loop = (normalFrameTime: number, GLOBALS: TGlobals) => {
-		console.log(GLOBALS.obstacles.length);
 		while (GLOBALS.obstacles.length < OBSTACLES_AT_ONCE) {
 			const previousObstacleAt = GLOBALS.obstacles.length
 				? GLOBALS.obstacles[GLOBALS.obstacles.length - 1][1]
